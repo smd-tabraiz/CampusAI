@@ -10,6 +10,8 @@
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "prisma:seed": "tsx prisma/seed.ts",
+    "build:render": "prisma generate --schema=prisma/schema.postgres.prisma && tsc",
+    "db:push:postgres": "prisma db push --schema=prisma/schema.postgres.prisma",
     "test": "vitest run"
   },
   "dependencies": {
