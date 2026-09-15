@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  id           String    @id @default(uuid())
   email        String    @unique
   passwordHash String
   name         String
@@ -34,7 +34,7 @@ model User {
 }
 
 model CampusLocation {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  id           String    @id @default(uuid())
   name         String
   code         String    @unique
   category     String
@@ -53,7 +53,7 @@ model CampusLocation {
 }
 
 model Building {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(uuid())
   name        String
   code        String   @unique
   lat         Float
@@ -65,7 +65,7 @@ model Building {
 }
 
 model Facility {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String   @id @default(uuid())
   name         String
   category     String
   buildingName String
@@ -80,7 +80,7 @@ model Facility {
 }
 
 model Event {
-  id              String      @id @default(auto()) @map("_id") @db.ObjectId
+  id              String      @id @default(uuid())
   title           String
   description     String
   category        String
@@ -88,9 +88,9 @@ model Event {
   startTime       String
   endTime         String
   locationName    String
-  locationId      String?     @db.ObjectId
+  locationId      String?
   organizerName   String
-  organizerId     String?     @db.ObjectId
+  organizerId     String?
   imageUrl        String?
   maxParticipants Int         @default(100)
   isFree          Boolean     @default(true)
@@ -103,9 +103,9 @@ model Event {
 }
 
 model EventRsvp {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  eventId   String   @db.ObjectId
-  userId    String   @db.ObjectId
+  id        String   @id @default(uuid())
+  eventId   String
+  userId    String
   status    String   @default("REGISTERED")
   createdAt DateTime @default(now())
 
@@ -116,8 +116,8 @@ model EventRsvp {
 }
 
 model LostItem {
-  id                String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String      @db.ObjectId
+  id                String      @id @default(uuid())
+  userId            String
   title             String
   category          String
   description       String
@@ -134,8 +134,8 @@ model LostItem {
 }
 
 model FoundItem {
-  id            String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String      @db.ObjectId
+  id            String      @id @default(uuid())
+  userId        String
   title         String
   category      String
   description   String
@@ -152,9 +152,9 @@ model FoundItem {
 }
 
 model ItemMatch {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  lostItemId      String    @db.ObjectId
-  foundItemId     String    @db.ObjectId
+  id              String    @id @default(uuid())
+  lostItemId      String
+  foundItemId     String
   confidenceScore Int
   matchReason     String
   status          String    @default("PENDING")
@@ -165,7 +165,7 @@ model ItemMatch {
 }
 
 model Cafeteria {
-  id               String     @id @default(auto()) @map("_id") @db.ObjectId
+  id               String     @id @default(uuid())
   name             String
   locationName     String
   lat              Float
@@ -183,8 +183,8 @@ model Cafeteria {
 }
 
 model FoodItem {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
-  cafeteriaId  String    @db.ObjectId
+  id           String    @id @default(uuid())
+  cafeteriaId  String
   name         String
   category     String
   price        Float
@@ -201,8 +201,8 @@ model FoodItem {
 }
 
 model RoommateProfile {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String   @unique @db.ObjectId
+  id                String   @id @default(uuid())
+  userId            String   @unique
   preferredHostel   String
   roomType          String
   sleepSchedule     String
@@ -223,9 +223,9 @@ model RoommateProfile {
 }
 
 model RoommateConnection {
-  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  requesterId        String   @db.ObjectId
-  targetId           String   @db.ObjectId
+  id                 String   @id @default(uuid())
+  requesterId        String
+  targetId           String
   status             String   @default("PENDING")
   compatibilityScore Int
   message            String?
@@ -238,8 +238,8 @@ model RoommateConnection {
 }
 
 model Notification {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @db.ObjectId
+  id        String   @id @default(uuid())
+  userId    String
   title     String
   message   String
   type      String
@@ -251,8 +251,8 @@ model Notification {
 }
 
 model AiConversation {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String      @db.ObjectId
+  id        String      @id @default(uuid())
+  userId    String
   title     String      @default("New Conversation")
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
@@ -262,8 +262,8 @@ model AiConversation {
 }
 
 model AiMessage {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
-  conversationId String         @db.ObjectId
+  id             String         @id @default(uuid())
+  conversationId String
   sender         String
   content        String
   intent         String?
@@ -274,7 +274,7 @@ model AiMessage {
 }
 
 model KnowledgeBase {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid())
   title     String
   category  String
   content   String
@@ -283,8 +283,8 @@ model KnowledgeBase {
 }
 
 model Feedback {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @db.ObjectId
+  id        String   @id @default(uuid())
+  userId    String
   category  String
   rating    Int
   comment   String

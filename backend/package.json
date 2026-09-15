@@ -5,11 +5,12 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "start": "node dist/server.js",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "prisma:seed": "tsx prisma/seed.ts",
+    "seed": "tsx prisma/seed.ts",
     "build:render": "prisma generate --schema=prisma/schema.postgres.prisma && tsc",
     "db:push:postgres": "prisma db push --schema=prisma/schema.postgres.prisma",
     "test": "vitest run"
