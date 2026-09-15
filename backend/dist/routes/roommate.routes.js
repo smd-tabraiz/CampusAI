@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const roommate_controller_1 = require("../controllers/roommate.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const router = (0, express_1.Router)();
+router.get('/profile', auth_middleware_1.authenticate, roommate_controller_1.RoommateController.getProfile);
+router.post('/profile', auth_middleware_1.authenticate, roommate_controller_1.RoommateController.upsertProfile);
+router.get('/matches', auth_middleware_1.authenticate, roommate_controller_1.RoommateController.getMatches);
+router.post('/connect', auth_middleware_1.authenticate, roommate_controller_1.RoommateController.connect);
+router.get('/connections', auth_middleware_1.authenticate, roommate_controller_1.RoommateController.getConnections);
+router.put('/connections/:id', auth_middleware_1.authenticate, roommate_controller_1.RoommateController.respondConnection);
+exports.default = router;

@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const navigation_controller_1 = require("../controllers/navigation.controller");
+const router = (0, express_1.Router)();
+router.get('/locations', navigation_controller_1.NavigationController.getLocations);
+router.get('/locations/search', navigation_controller_1.NavigationController.searchLocations);
+router.get('/locations/:id', navigation_controller_1.NavigationController.getLocationById);
+router.get('/navigation/route', navigation_controller_1.NavigationController.getRoute);
+router.get('/buildings', navigation_controller_1.NavigationController.getBuildings);
+router.get('/facilities', navigation_controller_1.NavigationController.getFacilities);
+exports.default = router;

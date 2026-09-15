@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const lost_found_controller_1 = require("../controllers/lost-found.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const router = (0, express_1.Router)();
+router.get('/', lost_found_controller_1.LostFoundController.getItems);
+router.post('/lost', auth_middleware_1.authenticate, lost_found_controller_1.LostFoundController.reportLost);
+router.post('/found', auth_middleware_1.authenticate, lost_found_controller_1.LostFoundController.reportFound);
+router.get('/matches', auth_middleware_1.authenticate, lost_found_controller_1.LostFoundController.getMatches);
+router.put('/:type/:id/status', auth_middleware_1.authenticate, lost_found_controller_1.LostFoundController.updateStatus);
+exports.default = router;
