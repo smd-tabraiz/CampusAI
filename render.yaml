@@ -36,8 +36,11 @@ services:
   # -------------------------------------------------------------
   # 2. Frontend Static Site (React 18 + Vite SPA)
   # -------------------------------------------------------------
-  - type: static
+  - type: web
     name: campusai-frontend
+    runtime: static
+    plan: free
+    region: oregon
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
