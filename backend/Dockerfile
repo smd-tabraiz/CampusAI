@@ -1,5 +1,8 @@
 FROM node:22-alpine AS builder
 
+# Install OpenSSL and libc6-compat for Prisma engine generation on Alpine
+RUN apk add --no-cache openssl libc6-compat
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -15,6 +18,9 @@ RUN npm run build
 
 FROM node:22-alpine AS runner
 
+# Install OpenSSL and libc6-compat runtime libraries for Prisma query engine
+RUN apk add --no-cache openssl libc6-compat
+
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -26,6 +32,7 @@ COPY prisma ./prisma/
 RUN npm install --omit=dev
 
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
 EXPOSE 5000
