@@ -1,10 +1,10 @@
 services:
   # -------------------------------------------------------------
-  # 1. Backend Web Service (Node.js Express API)
+  # 1. Backend Web Service (Node.js Express + Prisma API)
   # -------------------------------------------------------------
   - type: web
     name: campusai-backend
-    env: node
+    runtime: node
     plan: free
     region: oregon
     rootDir: backend
@@ -25,10 +25,7 @@ services:
       - key: JWT_EXPIRES_IN
         value: 7d
       - key: CORS_ORIGIN
-        fromService:
-          type: web
-          name: campusai-frontend
-          property: host
+        value: "*"
       - key: IBM_API_KEY
         sync: false
       - key: IBM_PROJECT_ID
@@ -37,22 +34,15 @@ services:
         value: https://us-south.ml.cloud.ibm.com
 
   # -------------------------------------------------------------
-  # 2. Frontend Static Site (React + Vite SPA)
+  # 2. Frontend Static Site (React 18 + Vite SPA)
   # -------------------------------------------------------------
-  - type: web
+  - type: static
     name: campusai-frontend
-    env: static
-    plan: free
-    region: oregon
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     routes:
-      # Proxy /api requests to the backend service
-      - type: rewrite
-        source: /api/*
-        destination: https://campusai-backend.onrender.com/api/*
-      # SPA fallback routing
+      # React SPA catch-all rewrite for client-side routing
       - type: rewrite
         source: /*
         destination: /index.html
